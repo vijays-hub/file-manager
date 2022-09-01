@@ -1,0 +1,5 @@
+# Main gitignore file to ignore root files.
+
+# misc
+.DS_Store
+
