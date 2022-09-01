@@ -1,6 +1,6 @@
 # File Manager
 
-In the project directory:
+In the project (client) directory:
 
 ### For Starting the App, use -> `npm start`
 
