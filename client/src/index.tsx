@@ -1,11 +1,15 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import App from "./app";
 
-const ROOT_ELEMENT = document.getElementById("root") as HTMLElement;
+const MOUNT_NODE = document.getElementById("root") as HTMLElement;
 
-ReactDOM.createRoot(ROOT_ELEMENT).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const ROOT_APP = (
+  <BrowserRouter>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </BrowserRouter>
 );
+ReactDOM.createRoot(MOUNT_NODE).render(ROOT_APP);
