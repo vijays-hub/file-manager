@@ -5,6 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "start": "tsc && node dist/main.js",
+    "devStart": "nodemon main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -17,14 +18,19 @@
   "author": "Vijay S Kumar",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
     "express": "^4.17.1",
-    "nodemon": "^2.0.19"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/express-serve-static-core": "^4.17.30",
     "@types/node": "^18.7.14",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1",
     "typescript": "^4.8.2"
   }
 }

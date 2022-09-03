@@ -1,10 +1,15 @@
 import express, { Request, Response } from "express";
-import { authGateway } from "../../middleware/authGateway";
+
 import { signIn } from "./signIn";
+import { signUp } from "./signUp";
 
 const router = express.Router();
 
-router.post("/login", authGateway, (request: Request, response: Response) =>
+router.post("/register", (request: Request, response: Response) =>
+  signUp({ request, response })
+);
+
+router.post("/login", (request: Request, response: Response) =>
   signIn({ request, response })
 );
 
