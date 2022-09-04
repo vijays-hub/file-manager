@@ -5,6 +5,7 @@ import { User } from "./types";
 import { GENERIC_ERROR } from "../../constants";
 import { getErrorResponse, getSuccessResponse } from "../../utils";
 import { generateAccessToken } from "../../utils/config/jwt";
+import getUserByEmail from "../user/getUserInfoByEmail";
 
 const signIn = async ({
   request,
@@ -16,7 +17,7 @@ const signIn = async ({
   const { email, password }: User = request.body;
 
   try {
-    const _dbUser = await userModel.findOne({ email });
+    const _dbUser = await getUserByEmail(email);
 
     if (_dbUser === null)
       return response
