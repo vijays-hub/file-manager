@@ -12,6 +12,7 @@ const port = 8080;
 // Routes Import
 import authenticationRoutes from "./api/auth";
 import uploadsRoutes from "./api/uploads";
+import userResources from "./api/user";
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -20,6 +21,7 @@ app.use(express.json());
 // Routes
 app.use("/auth", authenticationRoutes);
 app.use("/uploads", uploadsRoutes);
+app.use("/users", userResources);
 
 let server: Server;
 async function main() {
