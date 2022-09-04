@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { AccessTokenPayload } from "../../types";
 
-const TOKEN_EXPIRE_DURATION = 60; //6 hrs in secs.
+const TOKEN_EXPIRE_DURATION = 6 * 60 * 60; //6 hrs in secs.
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 const generateAccessToken = (payload: AccessTokenPayload) =>
