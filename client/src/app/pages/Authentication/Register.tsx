@@ -33,21 +33,21 @@ const Register = () => {
     <div className="App">
       <h1>Sign Up (Add more fields as needed)</h1>
       <br />
-      <p>Add Validation for this</p>
+      <p>Add React Hook form and add validations for each field.</p>
       <input
         type="text"
         placeholder="Enter your username..."
         onChange={({ target: { value } }) => setUserName(value)}
       />
       <br />
-      <p>Add Validation for this</p>
+      <p>Add React Hook form and add validations for each field.</p>
       <input
         type="text"
         placeholder="Enter your email.."
         onChange={({ target: { value } }) => setEmail(value)}
       />
       <br />
-      <p>Add Validation for this</p>
+      <p>Add React Hook form and add validations for each field.</p>
       <input
         type="text" //TODO: Convert this to password.
         placeholder="Enter your password"
