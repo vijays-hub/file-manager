@@ -29,7 +29,7 @@ const signIn = async ({
 
     // User found. Compare the passwords.
     bcrypt.compare(password, _dbUser.password, (error, result) => {
-      if (error) return response.status(401).send(GENERIC_ERROR);
+      if (error) return response.status(500).send(GENERIC_ERROR);
 
       if (!result)
         return response
@@ -40,14 +40,13 @@ const signIn = async ({
             )
           );
 
-      const acccessToken = generateAccessToken({ email });
+      const accessToken = generateAccessToken({ email });
 
       return response.status(200).send(
         getSuccessResponse({
           data: {
             email,
-            password,
-            acccessToken,
+            accessToken,
           },
           message: "Logged in successfully.",
         })
@@ -55,7 +54,7 @@ const signIn = async ({
     });
   } catch (error) {
     console.error(`Failed to login the user with email ${email} `, error);
-    response.status(401).json(GENERIC_ERROR);
+    response.status(500).json(GENERIC_ERROR);
   }
 };
 
