@@ -1,17 +1,11 @@
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { getAccessToken } from "utils";
 
-export const PrivateRoute = () => {
-  const navigate = useNavigate();
+const AUTHENTICATION_PATH = "/login";
 
-  useEffect(() => {
-    if (!getAccessToken()) {
-      console.log({ tokn: getAccessToken() });
-      navigate("/login");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export default function ProtectedRoute({ outlet }: { outlet: JSX.Element }) {
+  if (!getAccessToken())
+    return <Navigate to={{ pathname: AUTHENTICATION_PATH }} />;
 
-  return <Outlet />;
-};
+  return outlet;
+}
