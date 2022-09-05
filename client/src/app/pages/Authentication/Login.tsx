@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { AxiosError } from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "services/api/auth";
 import { APIResponse } from "types";
 import { extractErrorInfo, setAccessToken } from "utils";
 import { notifyError, notifySuccess } from "utils/notifications";
-import { AuthInfo } from "./types";
+import { AuthInfo, LoginInput } from "./types";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { emailRegEx } from "utils/regex";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInput>();
 
-  const loginUser = async () => {
+  const onLoginFormSubmit: SubmitHandler<LoginInput> = async (data) => {
+    const { email, password } = data;
     try {
       const {
         data: { message, data: responseData },
@@ -31,28 +37,34 @@ const Login = () => {
     <div className="App">
       <h1>Login</h1>
       <br />
-      <p>Add React Hook form and add validations for each field.</p>
-      <input
-        type="text"
-        placeholder="Enter your email.."
-        onChange={({ target: { value } }) => setEmail(value)}
-      />
-      <br />
-      <p>Add React Hook form and add validations for each field.</p>
-      <input
-        type="text" //TODO: Convert this to password.
-        placeholder="Enter your password"
-        onChange={({ target: { value } }) => setPassword(value)}
-      />
-      <br />
       <br />
 
-      <button onClick={() => loginUser()}>Let in</button>
-      <br />
-      <br />
+      <form onSubmit={handleSubmit(onLoginFormSubmit)}>
+        <input
+          type="text"
+          placeholder="Enter your email.."
+          {...register("email", {
+            pattern: emailRegEx,
+          })}
+        />
+        <br />
+        {errors.email && <p style={{ color: "red" }}>Invalid Email</p>}
+        <br />
 
+        <input
+          type="text" //TODO: Convert this to password.
+          placeholder="Enter your password"
+          {...register("password")}
+        />
+
+        <br />
+        <br />
+        <button type="submit">Let in</button>
+      </form>
+      <br />
+      <br />
       <p>
-        Dropped in for the first time? <Link to={"/register"}>Sign Up</Link>{" "}
+        Dropped in for the first time? <Link to={"/register"}>Sign Up</Link>
       </p>
     </div>
   );

@@ -8,4 +8,14 @@ type AuthInfo = {
   accessToken: string;
 };
 
-export type { User, AuthInfo };
+type AuthInputs = {
+  email: string;
+  password: string;
+};
+
+interface LoginInput extends AuthInputs {}
+interface RegisterInput extends AuthInputs {
+  username: string;
+}
+
+export type { User, AuthInfo, LoginInput, RegisterInput };

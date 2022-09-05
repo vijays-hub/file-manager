@@ -8,7 +8,7 @@ const login = async ({
   password: string;
 }) => apiInstance().post("/auth/login", { email, password });
 
-const register = async ({
+const registerUser = async ({
   username,
   email,
   password,
@@ -18,4 +18,4 @@ const register = async ({
   password: string;
 }) => apiInstance().post("/auth/register", { username, email, password });
 
-export { login, register };
+export { login, registerUser };
