@@ -1,19 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTypedDispatch } from "store/hooks";
 import { removeAccessToken } from "utils";
 
 const LogoutButton = () => {
+  const dispatch = useTypedDispatch();
   const navigate = useNavigate();
-  return (
-    <span
-      onClick={() => {
-        removeAccessToken();
-        navigate("/login");
-      }}
-    >
-      Logout
-    </span>
-  );
+
+  const handleLogout = () => {
+    removeAccessToken();
+    dispatch({
+      type: "LOGOUT_ATTEMPT",
+    });
+    navigate("/login");
+  };
+
+  return <span onClick={() => handleLogout()}>Logout</span>;
 };
 
 export default LogoutButton;
