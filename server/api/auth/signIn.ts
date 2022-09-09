@@ -1,4 +1,11 @@
 import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
+import userModel from "../../model/User";
+import { User } from "./types";
+import { GENERIC_ERROR } from "../../constants";
+import { getErrorResponse, getSuccessResponse } from "../../utils";
+import { generateAccessToken } from "../../utils/config/jwt";
+import getUserByEmail from "../user/getUserInfoByEmail";
 
 const signIn = async ({
   request,
@@ -7,25 +14,49 @@ const signIn = async ({
   request: Request;
   response: Response;
 }) => {
-  console.log({ body: request.body });
-  const EMAIL = "karthik@gmail.com";
-  const PASSWORD = "pvr@1234";
-  const { email, password }: { email: string; password: string } = request.body;
+  const { email, password }: User = request.body;
 
-  if (email !== EMAIL)
-    return response
-      .status(401)
-      .send({ message: "This email doesn't exist. Try creating an account" });
+  try {
+    const _dbUser = await getUserByEmail(email);
 
-  if (password !== PASSWORD)
-    return response
-      .status(401)
-      .send({ message: "Your password is incorrect. Please try again." });
+    if (_dbUser === null)
+      return response
+        .status(403)
+        .send(
+          getErrorResponse(
+            "There's no account associated with this Email. Please create an account with the same"
+          )
+        );
 
-  console.log({ email, password, PASSWORD });
-  response.status(200).send({
-    message: "Login successful!",
-  });
+    // User found. Compare the passwords.
+    bcrypt.compare(password, _dbUser.password, (error, result) => {
+      if (error) return response.status(500).send(GENERIC_ERROR);
+
+      if (!result)
+        return response
+          .status(401)
+          .send(
+            getErrorResponse(
+              "Password entered is incorrect. Please enter a valid password."
+            )
+          );
+
+      const accessToken = generateAccessToken({ email });
+
+      return response.status(200).send(
+        getSuccessResponse({
+          data: {
+            email,
+            accessToken,
+          },
+          message: "Logged in successfully.",
+        })
+      );
+    });
+  } catch (error) {
+    console.error(`Failed to login the user with email ${email} `, error);
+    response.status(500).json(GENERIC_ERROR);
+  }
 };
 
 export { signIn };
