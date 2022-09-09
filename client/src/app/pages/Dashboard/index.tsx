@@ -1,37 +1,26 @@
-import { AxiosError } from "axios";
-import React, { useEffect, useState } from "react";
-import { getUserByEmail } from "services/api/user";
-import { APIResponse } from "types";
-import { extractErrorInfo } from "utils";
-import { notifyError } from "utils/notifications";
+import React, { useEffect } from "react";
+import { selectAuthUser, selectUserProfile } from "store/auth/selectors";
+import { fetchUserProfileAction } from "store/auth/slice";
+import { useAppSelector, useTypedDispatch } from "store/hooks";
 import Logout from "../Authentication/Logout";
-import { User } from "../Authentication/types";
 
 const Dashboard = () => {
-  // TODO: Move this to redux (saga preferrably and then store it in REDUX).
-  const [user, setUser] = useState<User | null>(null);
-  const fetchUserInfo = async () => {
-    try {
-      const {
-        data: { data: userInfo },
-      }: { data: APIResponse } = await getUserByEmail("vijay@gmail.com");
-
-      setUser(userInfo);
-    } catch (error) {
-      notifyError(extractErrorInfo(error as AxiosError));
-    }
-  };
+  const dispatch = useTypedDispatch();
+  const authUser = useAppSelector(selectAuthUser);
+  const userProfile = useAppSelector(selectUserProfile);
 
   useEffect(() => {
-    fetchUserInfo();
-  }, []);
+    if (!userProfile && authUser)
+      dispatch(fetchUserProfileAction({ email: authUser?.email as string }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authUser]);
 
   return (
     <div>
       <h1>Dashboard</h1>
       <br />
       <br />
-      {user && <h3>Welcome back, {user.username}</h3>}
+      {<h3>Welcome back, {userProfile?.username}</h3>}
       <br />
       <br />
       <ul>

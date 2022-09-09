@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AxiosError } from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "services/api/auth";
 import { APIResponse } from "types";
-import { extractErrorInfo, setAccessToken } from "utils";
+import { extractErrorInfo, getAccessToken, setAccessToken } from "utils";
 import { notifyError, notifySuccess } from "utils/notifications";
 import { AuthInfo, LoginInput } from "./types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { emailRegEx } from "utils/regex";
+import { useAppSelector, useTypedDispatch } from "store/hooks";
+import { setAuthInfo } from "store/auth/slice";
+import { selectAuthUser } from "store/auth/selectors";
 
 const Login = () => {
+  const dispatch = useTypedDispatch();
+  const authUser = useAppSelector(selectAuthUser);
+
   const navigate = useNavigate();
   const {
     register,
@@ -25,13 +31,25 @@ const Login = () => {
       }: { data: APIResponse } = await login({ email, password });
 
       const { accessToken } = responseData as AuthInfo;
-      setAccessToken(accessToken);
+      setAccessToken(accessToken); // Store it in local storage.
+      dispatch(
+        setAuthInfo({
+          accessToken,
+          email,
+        })
+      );
+
       notifySuccess(message);
       navigate("/dashboard");
     } catch (error) {
       notifyError(extractErrorInfo(error as AxiosError));
     }
   };
+
+  useEffect(() => {
+    if (getAccessToken() !== "") navigate("/dashboard");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authUser]);
 
   return (
     <div className="App">
