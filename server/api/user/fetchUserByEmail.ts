@@ -11,7 +11,6 @@ const fetchUserByEmail = async ({
 }) => {
   const { email } = request.query;
   const user = await getUserByEmail(email as string);
-  console.log({ user });
 
   if (!user)
     return response
