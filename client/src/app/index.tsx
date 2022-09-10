@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "styles/GlobalStyles";
 import theme from "styles/theme";
@@ -26,6 +26,7 @@ function App() {
       <ToastContainer />
 
       <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route
           path="/dashboard"
           element={<ProtectedRoute outlet={<Dashboard />} />}

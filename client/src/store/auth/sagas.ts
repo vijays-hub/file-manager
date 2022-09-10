@@ -2,7 +2,7 @@ import { AuthInfo, User } from "app/pages/Authentication/types";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { getAuthenticity, getUserByEmail } from "services/api/user";
 import { APIResponse } from "types";
-import { getAccessToken } from "utils";
+import { getAccessToken, removeAccessToken } from "utils";
 import { setAuthFailed, setAuthInfo, setUserProfile } from "./slice";
 
 function* initAuth() {
@@ -28,7 +28,8 @@ function* initAuth() {
 
   if (!authenticUser) {
     yield put(setAuthFailed());
-    return;
+    removeAccessToken();
+    return (window.location.href = "/login");
   }
 
   yield put(setAuthInfo(userInfo as AuthInfo));
