@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAccessToken } from "utils";
 
 type AxiosConfigOptions = {
-  contentType?: string;
+  "Content-Type"?: string;
 };
 
 export const apiInstance = (configOptions?: AxiosConfigOptions) => {

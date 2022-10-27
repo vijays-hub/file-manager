@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { selectAuthUser, selectUserProfile } from "store/auth/selectors";
 import { fetchUserProfileAction } from "store/auth/slice";
 import { useAppSelector, useTypedDispatch } from "store/hooks";
 import Logout from "../Authentication/Logout";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   const authUser = useAppSelector(selectAuthUser);
   const userProfile = useAppSelector(selectUserProfile);
@@ -23,17 +25,18 @@ const Dashboard = () => {
       {<h3>Welcome back, {userProfile?.username}</h3>}
       <br />
       <br />
-      <ul>
-        <li>Setup Redux / react-query </li>
-        <li>
-          Get user info by email (should be available with the AuthInfo. Store
-          it in state after login)
-        </li>
-        <li>Rest of the stuff</li>
-      </ul>
+
+      <p>List all uploads</p>
       <br />
       <br />
+
+      <button onClick={() => navigate("/upload-files")}>
+        Upload More files
+      </button>
+
       <br />
+      <br />
+
       <button>
         <Logout />
       </button>
