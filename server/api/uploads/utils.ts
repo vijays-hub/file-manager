@@ -1,10 +1,11 @@
 import fileSystem from "fs";
+import rimraf from "rimraf";
 import { UploadObject } from "./types";
 
 // Function to add new uploaded obj and return updated array.
 const getUpdatedUploadsArray = (
   uploads: Array<UploadObject> = [],
-  id,
+  id: string,
   uploadedObj: UploadObject
 ): Array<UploadObject> => {
   uploads.forEach((file) => {
@@ -26,7 +27,7 @@ const getUpdatedUploadsArray = (
 // Recursive function to get folder from assets folder.
 const getUploadObjectRecursively = (
   files: Array<UploadObject>,
-  id
+  id: string
 ): UploadObject | null => {
   let uploadObject = null;
 
@@ -48,7 +49,65 @@ const getUploadObjectRecursively = (
   return uploadObject;
 };
 
+const removeSingleFile = (
+  uploads: Array<UploadObject> = [],
+  id: string
+): Array<UploadObject> => {
+  uploads.forEach((file, index) => {
+    // Delete the found file from assets and uploads array.
+    if (file.type !== "folder" && file.id === id) {
+      try {
+        fileSystem.unlinkSync(file.filePath);
+      } catch (error) {
+        console.error("Error removing file from assets!", error);
+      }
+
+      // Remove it from uploads array.
+      uploads.splice(index, 1);
+      return;
+    }
+
+    // If it has nested folders, recursively find the file and delete it.
+    if (file.type === "folder" && file.files.length > 0) {
+      removeSingleFile(file.files, id);
+    }
+  });
+
+  return uploads;
+};
+
+const removeDirectory = (
+  uploads: Array<UploadObject> = [],
+  id: string
+): Array<UploadObject> => {
+  uploads.forEach((file, index) => {
+    if (file.type === "folder") {
+      if (file.id === id) {
+        rimraf(file.folderPath, () => {
+          console.log("Removed the directory with path -> ", file.folderPath);
+        });
+
+        // Remove it from uploads array.
+        uploads.splice(index, 1);
+        return;
+      }
+
+      if (file.files.length > 0) {
+        removeDirectory(file.files, id);
+      }
+    }
+  });
+
+  return uploads;
+};
+
 const createNewDirectory = (path) =>
   fileSystem.mkdirSync(path, { recursive: true });
 
-export { getUploadObjectRecursively, createNewDirectory, getUpdatedUploadsArray };
+export {
+  getUploadObjectRecursively,
+  createNewDirectory,
+  getUpdatedUploadsArray,
+  removeDirectory,
+  removeSingleFile,
+};

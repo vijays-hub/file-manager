@@ -25,6 +25,7 @@
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.4",
+    "rimraf": "^3.0.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
