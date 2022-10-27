@@ -1,10 +1,11 @@
 import { AxiosError, AxiosResponse } from "axios";
+import { GENERIC_ERROR_MESSAGE } from "../constants";
 import { APIResponse } from "types";
 
 const extractErrorInfo = (error: AxiosError) => {
   const { response } = error;
   const { data }: { data: APIResponse } = response as AxiosResponse;
-  return data.message;
+  return data?.message || GENERIC_ERROR_MESSAGE;
 };
 
 const ACCESS_TOKEN_IDENTIFIER = "access_token";

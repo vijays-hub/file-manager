@@ -11,6 +11,7 @@ import Register from "./pages/Authentication/Register";
 import ProtectedRoute from "common/Private";
 import { useTypedDispatch } from "store/hooks";
 import { initAuthAction } from "store/auth/slice";
+import ManageUploads from "./pages/Uploads";
 
 function App() {
   const dispatch = useTypedDispatch();
@@ -30,6 +31,10 @@ function App() {
         <Route
           path="/dashboard"
           element={<ProtectedRoute outlet={<Dashboard />} />}
+        />
+        <Route
+          path="/upload-files"
+          element={<ProtectedRoute outlet={<ManageUploads />} />}
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

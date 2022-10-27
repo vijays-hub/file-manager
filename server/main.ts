@@ -5,6 +5,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import { connectToDatabase } from "./utils/config/db";
 import { Server } from "http";
+import expressFileUpload from "express-fileupload";
 
 const app: Express = express();
 const port = 8080;
@@ -17,6 +18,8 @@ import userResources from "./api/user";
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(__dirname));
+app.use(expressFileUpload());
 
 // Routes
 app.use("/auth", authenticationRoutes);

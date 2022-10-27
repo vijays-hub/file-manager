@@ -15,6 +15,11 @@ const UserSchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
+  uploaded: {
+    type: Mongoose.Schema.Types.Mixed,
+    required: true,
+    default: [],
+  },
 });
 
 const userModel = Mongoose.model("user", UserSchema);
