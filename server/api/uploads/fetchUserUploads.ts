@@ -27,7 +27,7 @@ const fetchUserUploads = async ({
 
   if (!id) uploadedFiles = user.uploaded;
   else {
-    let uploadObject = getUploadObjectRecursively(user.uploaded, id);
+    let uploadObject = getUploadObjectRecursively(user.uploaded, id as string);
 
     if (uploadObject === null)
       response
