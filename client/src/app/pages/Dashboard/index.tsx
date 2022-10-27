@@ -30,6 +30,11 @@ const Dashboard = () => {
       <br />
       <br />
 
+      <p>
+        Download snippet is being screenshot'ed in Desktop. Look for other ways
+        to download a buffer
+      </p>
+
       <button onClick={() => navigate("/upload-files")}>
         Upload More files
       </button>
