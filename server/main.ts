@@ -14,6 +14,7 @@ const port = 8080;
 import authenticationRoutes from "./api/auth";
 import uploadsRoutes from "./api/uploads";
 import userResources from "./api/user";
+import shareResources from "./api/share";
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -24,6 +25,7 @@ app.use(expressFileUpload());
 // Routes
 app.use("/auth", authenticationRoutes);
 app.use("/uploads", uploadsRoutes);
+app.use("/share", shareResources);
 app.use("/users", userResources);
 
 let server: Server;

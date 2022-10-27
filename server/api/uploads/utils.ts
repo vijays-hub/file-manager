@@ -1,5 +1,6 @@
 import fileSystem from "fs";
 import rimraf from "rimraf";
+import { SharedFileObject } from "../share/types";
 import { UploadObject } from "./types";
 
 // Function to add new uploaded obj and return updated array.
@@ -24,7 +25,7 @@ const getUpdatedUploadsArray = (
   return uploads;
 };
 
-// Recursive function to get folder from assets folder.
+// Recursive function to get folder from uploads.
 const getUploadObjectRecursively = (
   files: Array<UploadObject>,
   id: string
@@ -47,6 +48,31 @@ const getUploadObjectRecursively = (
   });
 
   return uploadObject;
+};
+
+// Recursive function to get file from uploads.
+const getSingleFileRecursively = (
+  files: Array<UploadObject>,
+  id: string
+): UploadObject | null => {
+  console.log("Single File");
+  let singleFile = null;
+
+  files.forEach((file) => {
+    console.log("File ", file);
+    if (file.type !== " folder" && file.id === id) {
+      singleFile = file;
+      return;
+    }
+
+    // If it is a folder and has nested files in it, recursively get the file.
+    if (file.type === "folder" && file.files.length > 0) {
+      singleFile = getSingleFileRecursively(file.files, id);
+      if (singleFile !== null) return singleFile;
+    }
+  });
+
+  return singleFile;
 };
 
 const removeSingleFile = (
@@ -104,8 +130,40 @@ const removeDirectory = (
 const createNewDirectory = (path) =>
   fileSystem.mkdirSync(path, { recursive: true });
 
+const getSharedAssetsRecursively = (sharedFiles, id: string): UploadObject => {
+  let singleFile = null;
+
+  sharedFiles.forEach((sharedFileInfo) => {
+    const file =
+      typeof sharedFileInfo?.file === "undefined"
+        ? sharedFileInfo
+        : sharedFileInfo.file;
+
+    if (file.type === " folder") {
+      if (file.id === id) {
+        singleFile = file;
+        return;
+      }
+
+      // If it is a folder and has nested files in it, recursively get the file.
+      if (file.files.length > 0) {
+        singleFile = getSharedAssetsRecursively(file.files, id);
+        if (singleFile !== null) return singleFile;
+      }
+    }
+
+    // File is not a folder.
+    singleFile = file;
+    return;
+  });
+
+  return singleFile;
+};
+
 export {
   getUploadObjectRecursively,
+  getSingleFileRecursively,
+  getSharedAssetsRecursively,
   createNewDirectory,
   getUpdatedUploadsArray,
   removeDirectory,

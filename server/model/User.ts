@@ -20,6 +20,11 @@ const UserSchema = new Mongoose.Schema({
     required: true,
     default: [],
   },
+  sharedWithMe: {
+    type: Mongoose.Schema.Types.Mixed,
+    required: true,
+    default: [],
+  },
 });
 
 const userModel = Mongoose.model("user", UserSchema);
