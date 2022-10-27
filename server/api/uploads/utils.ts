@@ -55,7 +55,6 @@ const getSingleFileRecursively = (
   files: Array<UploadObject>,
   id: string
 ): UploadObject | null => {
-  console.log("Single File");
   let singleFile = null;
 
   files.forEach((file) => {
