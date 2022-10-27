@@ -23,10 +23,9 @@ const createFolder = async ({
   response: Response;
 }) => {
   // id -> parent folder id. Will be null for root.
-  const { id, folderName } = request.query as {
-    id: string;
-    folderName: string;
-  };
+  const { id, folderName } = request.query;
+
+  const fileId = id as string;
 
   // Extract user auth info from token.
   const { email } = getUserSessionFromRequest(request);
@@ -39,7 +38,7 @@ const createFolder = async ({
   let uploadedObj: UploadObject = {
     id: generateUniqueId(),
     type: "folder",
-    folderName,
+    folderName: folderName as string,
     files: [],
     folderPath: "",
     createdAt: new Date().getTime(),
@@ -56,7 +55,7 @@ const createFolder = async ({
       createNewDirectory(ASSETS_PATH);
     }
   } else {
-    let folderObj = getUploadObjectRecursively(user.uploaded, id);
+    let folderObj = getUploadObjectRecursively(user.uploaded, fileId);
     if (!folderObj || folderObj === null)
       return response
         .status(500)
@@ -67,7 +66,7 @@ const createFolder = async ({
         );
 
     uploadedObj.folderPath = `${folderObj.folderPath}/${folderName}`;
-    updatedArray = getUpdatedUploadsArray(user.uploaded, id, uploadedObj);
+    updatedArray = getUpdatedUploadsArray(user.uploaded, fileId, uploadedObj);
   }
 
   if (fileSystem.existsSync(uploadedObj.folderPath))
