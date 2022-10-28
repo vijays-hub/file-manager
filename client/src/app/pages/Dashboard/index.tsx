@@ -44,8 +44,10 @@ const Dashboard = () => {
       </p>
 
       <p>
-        Use the `uploads` got from user api to search through files and folders.
-        Do it on FE rather than BE.
+        Use the `uploads` & `sharedWithMe` arrays got from user api to search
+        through files and folders. Do it on FE rather than BE. (Use `search`
+        method of string to help in search... convert everything to lowercase
+        when comparing)
       </p>
 
       <button onClick={() => navigate("/upload-files")}>
