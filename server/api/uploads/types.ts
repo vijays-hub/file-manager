@@ -10,4 +10,10 @@ type UploadObject = {
   createdAt: number;
 };
 
-export type { UploadObject };
+type RenameData = {
+  uploads: Array<UploadObject>;
+  id: string;
+  latestName: string;
+};
+
+export type { UploadObject, RenameData };
