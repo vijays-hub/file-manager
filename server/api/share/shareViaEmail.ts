@@ -56,11 +56,7 @@ const shareViaEmail = async ({
     if (fileToShare === null)
       return response
         .status(404)
-        .send(
-          getErrorResponse(
-            `We couldn't find any file associated with the id ${id}`
-          )
-        );
+        .send(getErrorResponse(`We couldn't find any file`));
 
     const sharedFileObject: SharedFileObject = {
       id: generateUniqueId(),
@@ -71,6 +67,7 @@ const shareViaEmail = async ({
       },
       createdAt: new Date().getTime(),
     };
+
     await userModel.findOneAndUpdate(
       {
         email: recipientEmail,
