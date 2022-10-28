@@ -40,6 +40,8 @@ const Dashboard = () => {
         later after production.
       </p>
 
+      <p>Move is supported only for folders</p>
+
       <button onClick={() => navigate("/upload-files")}>
         Upload More files
       </button>
