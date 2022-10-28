@@ -37,7 +37,11 @@ const Dashboard = () => {
 
       <p>Disable edit of extention for renaming file.</p>
 
-      <p>Move is supported only for folders</p>
+      <p>
+        Move is supported only for folders. Use get all folders API to display
+        the folders. The id used for that API is the id of the folder you want
+        to move.
+      </p>
 
       <button onClick={() => navigate("/upload-files")}>
         Upload More files
