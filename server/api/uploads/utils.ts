@@ -129,6 +129,11 @@ const removeDirectory = (
 const createNewDirectory = (path) =>
   fileSystem.mkdirSync(path, { recursive: true });
 
+const renameDirectory = (oldPath, latestPath) =>
+  fileSystem.rename(oldPath, latestPath, () => {
+    console.log("Successfully modified the directory");
+  });
+
 const getSharedAssetsRecursively = (sharedFiles, id: string): UploadObject => {
   let singleFile = null;
 
@@ -164,6 +169,7 @@ export {
   getSingleFileRecursively,
   getSharedAssetsRecursively,
   createNewDirectory,
+  renameDirectory,
   getUpdatedUploadsArray,
   removeDirectory,
   removeSingleFile,

@@ -5,7 +5,7 @@ import { getErrorResponse, getSuccessResponse } from "../../utils";
 import { getUserSessionFromRequest } from "../user/constants";
 import getUserByEmail from "../user/getUserInfoByEmail";
 import { UploadObject } from "./types";
-import { getUploadObjectRecursively } from "./utils";
+import { getUploadObjectRecursively, renameDirectory } from "./utils";
 
 // Recursive function to move the folder.
 const moveFolderToParent = (
@@ -19,9 +19,7 @@ const moveFolderToParent = (
       if (file.id === id) {
         const latestPath = `${parentFolder.folderPath}/${folderToBeMoved.folderName}`;
 
-        fileSystem.rename(file.folderPath, latestPath, () => {
-          console.log("Moved folder successfully ", folderToBeMoved.folderName);
-        });
+        renameDirectory(file.folderPath, latestPath);
 
         uploads.splice(index, 1);
         return;
