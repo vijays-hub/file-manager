@@ -35,10 +35,7 @@ const Dashboard = () => {
         to download a buffer
       </p>
 
-      <p>
-        Have skipped rename keeping `shared with me` in mind. So Include it
-        later after production.
-      </p>
+      <p>Disable edit of extention for renaming file.</p>
 
       <p>Move is supported only for folders</p>
 
