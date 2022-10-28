@@ -43,6 +43,11 @@ const Dashboard = () => {
         user can't move to that folder
       </p>
 
+      <p>
+        Use the `uploads` got from user api to search through files and folders.
+        Do it on FE rather than BE.
+      </p>
+
       <button onClick={() => navigate("/upload-files")}>
         Upload More files
       </button>
