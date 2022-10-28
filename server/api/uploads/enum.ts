@@ -1,0 +1,6 @@
+enum RENAME_ACTIONS {
+  FOLDER = "FOLDER",
+  FILE = "FILE",
+}
+
+export { RENAME_ACTIONS };
