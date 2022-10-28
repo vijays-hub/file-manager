@@ -39,8 +39,8 @@ const Dashboard = () => {
 
       <p>
         Move is supported only for folders. Use get all folders API to display
-        the folders. The id used for that API is the id of the folder you want
-        to move.
+        the folders. In the folders result, slice out the current folder so that
+        user can't move to that folder
       </p>
 
       <button onClick={() => navigate("/upload-files")}>
