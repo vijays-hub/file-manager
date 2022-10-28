@@ -3,6 +3,7 @@ import { authGateway } from "../../middleware/authGateway";
 import createFolder from "./createFolder";
 import deleteUploadsById from "./deleteUploadsById";
 import { fetchUserUploads } from "./fetchUserUploads";
+import { moveFolder } from "./moveResources";
 import uploadFiles from "./uploadFiles";
 
 const router = express.Router();
@@ -22,6 +23,12 @@ router.post(
   "/create-folder",
   authGateway,
   (request: Request, response: Response) => createFolder({ request, response })
+);
+
+router.post(
+  "/move-folder",
+  authGateway,
+  (request: Request, response: Response) => moveFolder({ request, response })
 );
 
 router.delete(
