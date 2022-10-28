@@ -164,6 +164,26 @@ const getSharedAssetsRecursively = (sharedFiles, id: string): UploadObject => {
   return singleFile;
 };
 
+const getFoldersRecursively = (
+  uploads: Array<UploadObject> = []
+): Array<UploadObject> => {
+  const folders = [];
+
+  uploads.forEach((file) => {
+    if (file.type === "folder") {
+      folders.push(file);
+
+      if (file.files.length > 0) {
+        // Retrive nested folders as well.
+        const nestedFolders = getFoldersRecursively(file.files);
+        nestedFolders.forEach((folder) => folders.push(folder));
+      }
+    }
+  });
+
+  return folders;
+};
+
 export {
   getUploadObjectRecursively,
   getSingleFileRecursively,
@@ -173,4 +193,5 @@ export {
   getUpdatedUploadsArray,
   removeDirectory,
   removeSingleFile,
+  getFoldersRecursively,
 };

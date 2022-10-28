@@ -6,6 +6,7 @@ import { RENAME_ACTIONS } from "./enum";
 import { fetchUserUploads } from "./fetchUserUploads";
 import { moveFolder } from "./moveResources";
 import { renameResources } from "./renameFileAndFolders";
+import { retrieveAllFolders } from "./retrieveAllFolders";
 import uploadFiles from "./uploadFiles";
 
 const router = express.Router();
@@ -19,6 +20,13 @@ router.get(
 
 router.post("/", authGateway, (request: Request, response: Response) =>
   uploadFiles({ request, response })
+);
+
+router.get(
+  "/folders-collection",
+  authGateway,
+  (request: Request, response: Response) =>
+    retrieveAllFolders({ request, response })
 );
 
 router.post(
