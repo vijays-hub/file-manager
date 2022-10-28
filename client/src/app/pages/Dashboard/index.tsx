@@ -37,7 +37,11 @@ const Dashboard = () => {
 
       <p>Disable edit of extention for renaming file.</p>
 
-      <p>Move is supported only for folders</p>
+      <p>
+        Move is supported only for folders. Use get all folders API to display
+        the folders. In the folders result, slice out the current folder so that
+        user can't move to that folder
+      </p>
 
       <button onClick={() => navigate("/upload-files")}>
         Upload More files
