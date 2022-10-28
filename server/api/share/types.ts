@@ -1,7 +1,7 @@
 import { UploadObject } from "../uploads/types";
 
 type SharedFileObject = {
-  id: string;
+  id?: string;
   file: UploadObject;
   sharedBy: SharedBy;
   createdAt: number;
@@ -19,4 +19,8 @@ interface Recipient extends SharedBy {
   };
 }
 
-export type { SharedFileObject, Recipient };
+interface PublicLink extends SharedFileObject {
+  hash: string;
+}
+
+export type { SharedFileObject, Recipient, PublicLink };
